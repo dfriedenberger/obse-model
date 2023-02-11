@@ -1,7 +1,8 @@
 from setuptools import setup
+from obse import __version__
 
 setup(name='obse',
-      version='0.0.1',
+      version=__version__,
       description='Library for Ontology Based System Engineering.',
       url='https://github.com/dfriedenberger/obse.git',
       author='Dirk Friedenberger',
