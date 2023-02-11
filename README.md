@@ -1,2 +1,2 @@
-# obse-model
-Ontology Based System Engineering Model
+# obse
+Ontology Based System Engineering
