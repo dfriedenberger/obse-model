@@ -71,4 +71,8 @@ class MBA(DefinedNamespace):
     target_path: URIRef
     project_ref: URIRef
 
+    # Implementation relations
+    implement: URIRef
+
+
 
