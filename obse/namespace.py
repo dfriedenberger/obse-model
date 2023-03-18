@@ -50,7 +50,11 @@ class MBA(DefinedNamespace):
 
     # general relations
     has: URIRef
+    
+    # Messages
     structure: URIRef
+    hasRecipient: URIRef
+    hasSender: URIRef
 
 
 
