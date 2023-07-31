@@ -83,7 +83,7 @@ class SparQLWrapper:
             """).substitute(PROP=prop)
 
         n = [r['value'] for r in self.graph.query(q,initBindings = {'s' : obj })]
-        if(len(n) != 1): raise ValueError(f"Not a single result {str(n)} for {obj}")
+        if(len(n) != 1): raise ValueError(f"Not a single result {str(n)} for {obj} prop: {prop}")
         if isinstance(n[0],Literal):
             return n[0].value
         return n[0]
@@ -112,10 +112,27 @@ class SparQLWrapper:
 
         n = [r['o'] for r in self.graph.query(q,initBindings = {'s' : obj })]
         return n
+    
+    def get_out(self,obj):
+        q = """
+            SELECT ?p ?o
+            WHERE {
+                ?s ?p ?o .
+            }
+            """
+
+        n = [(r['p'],r['o']) for r in self.graph.query(q,initBindings = {'s' : obj })]
+        return n
+
     def get_single_out_reference(self,obj,prop):
         r = self.get_out_references(obj,prop)
         if(len(r) != 1): raise ValueError(f"Not a single result {str(r)} for {obj}")
         return r[0]
+    
+    def has_out_reference(self,obj,prop):
+        r = self.get_out_references(obj,prop)
+        return len(r) > 0
+    
 
     def get_sequence(self,obj):
         q = """

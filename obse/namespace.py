@@ -13,7 +13,6 @@ class MBA(DefinedNamespace):
     """
     URL = "https://frittenburger.de/2022/11/EULYNX"
     _NS = Namespace(URL+"/Schema#")
-
     # http://www.w3.org/2000/01/rdf-schema#Class
 
     #IPO model
@@ -23,6 +22,9 @@ class MBA(DefinedNamespace):
 
     Message: URIRef
     Property: URIRef
+
+    # Configuration
+    Secret: URIRef
 
     #StateMachine
     StateMachine: URIRef = stateMachineOntology.get_class('#StateMachine')
@@ -61,8 +63,6 @@ class MBA(DefinedNamespace):
     ## interface relations
     provides: URIRef
     requires: URIRef
-   
- 
 
     # C3 Level relations
     contains: URIRef
@@ -77,6 +77,6 @@ class MBA(DefinedNamespace):
 
     # Implementation relations
     implement: URIRef
-
+    portnumber: URIRef
 
 
