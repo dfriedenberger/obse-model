@@ -20,7 +20,7 @@ class MBA(DefinedNamespace):
     Interface: URIRef
     Component: URIRef
 
-    Message: URIRef
+    #Message: URIRef
     Property: URIRef
 
     # Configuration
@@ -55,28 +55,28 @@ class MBA(DefinedNamespace):
     
     # Messages
     structure: URIRef
-    hasRecipient: URIRef
-    hasSender: URIRef
+    #hasRecipient: URIRef
+    #hasSender: URIRef
 
 
 
     ## interface relations
-    provides: URIRef
-    requires: URIRef
+    #provides: URIRef
+    #requires: URIRef
 
     # C3 Level relations
-    contains: URIRef
+    #contains: URIRef
     use: URIRef
 
     # C3 Level properties
-    pattern: URIRef
+    #pattern: URIRef
 
     # C3 Level / Library properties
-    target_path: URIRef
-    project_ref: URIRef
+    #target_path: URIRef
+    #project_ref: URIRef
 
     # Implementation relations
-    implement: URIRef
+    #implement: URIRef
     portnumber: URIRef
 
 
