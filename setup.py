@@ -9,5 +9,6 @@ setup(name='obse',
       author_email='projekte@frittenburger.de',
       license='GPLv3',
       packages=['obse'],
+      package_data={'': ['statemachine.ttl']},
       install_requires=[],
       zip_safe=False)
