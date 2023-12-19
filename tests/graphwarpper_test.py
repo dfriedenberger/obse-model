@@ -1,5 +1,5 @@
-from obse.graphwrapper import GraphWrapper
 from rdflib import Graph, URIRef
+from obse.graphwrapper import GraphWrapper
 
 
 def test_01():

@@ -11,4 +11,11 @@ setup(name='obse',
       packages=['obse'],
       package_data={'': ['statemachine.ttl']},
       install_requires=[],
+      classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+      ],
       zip_safe=False)
+
+
