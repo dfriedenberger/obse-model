@@ -5,6 +5,8 @@ setup(name='obse',
       version=__version__,
       description='Library for Ontology Based System Engineering.',
       url='https://github.com/dfriedenberger/obse.git',
+      long_description=open('README.md', encoding="UTF-8").read(),
+      long_description_content_type='text/markdown',
       author='Dirk Friedenberger',
       author_email='projekte@frittenburger.de',
       license='GPLv3',
@@ -17,5 +19,3 @@ setup(name='obse',
         'Operating System :: OS Independent',
       ],
       zip_safe=False)
-
-
