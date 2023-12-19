@@ -1,2 +1,2 @@
 rdflib==6.2.0
-setuptools==65.5.0
+setuptools==65.7.0
