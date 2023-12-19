@@ -1,22 +1,25 @@
 from .namespace import MBA
 
 from rdflib import Graph, Literal, RDF, RDFS, URIRef
-from rdflib.namespace import  XSD 
+from rdflib.namespace import XSD 
 
-def type_str(rdf_type : URIRef) -> str:
+
+def type_str(rdf_type: URIRef) -> str:
     s = str(rdf_type)
     return s.split("#")[1]
 
-def create_ref(rdf_type : URIRef,name : str) -> URIRef:
-    identifier = type_str(rdf_type) + "-"+name.replace(" ","-").replace("\\","-")
+
+def create_ref(rdf_type: URIRef, name: str) -> URIRef:
+    identifier = type_str(rdf_type) + "-"+name.replace(" ", "-").replace("\\", "-")
     return URIRef(MBA.URL+"#"+identifier)
+
 
 class GraphWrapper:
 
     def __init__(self,graph : Graph):
         self.graph = graph
 
-    def add_named_instance(self,rdf_type : URIRef,name : str,unique_name : str = None) -> URIRef:
+    def add_named_instance(self, rdf_type: URIRef, name: str, unique_name: str = None) -> URIRef:
         if unique_name is None:
             unique_name = name
         rdf_object  = create_ref(rdf_type,unique_name)
