@@ -1,9 +1,10 @@
 import string
 from rdflib import Literal
 
+
 class SparQLWrapper:
 
-    def __init__(self,graph):
+    def __init__(self, graph):
         self.graph = graph
 
     def get_references(self):
@@ -16,9 +17,9 @@ class SparQLWrapper:
             }
             """
 
-        return [(r['s'],r['o']) for r in self.graph.query(q)]
-    
-    def get_references_by_type(self,type):
+        return [(r['s'], r['o']) for r in self.graph.query(q)]
+
+    def get_references_by_type(self, reference_type):
         q = """
             SELECT ?s ?o
             WHERE {
@@ -28,27 +29,28 @@ class SparQLWrapper:
             }
             """
 
-        return [(r['s'],r['o']) for r in self.graph.query(q,initBindings = {'p' : type })]
+        return [(r['s'], r['o']) for r in self.graph.query(q, initBindings={'p': reference_type})]
 
-    def get_type(self,obj):
+    def get_type(self, obj):
         q = """
             SELECT ?t
             WHERE {
                 ?s a ?t .
             }
             """
-        n = [r['t'] for r in self.graph.query(q,initBindings = {'s' : obj })]
-        if(len(n) != 1): raise ValueError(f"Not a single result: {n} for {obj}")
+        n = [r['t'] for r in self.graph.query(q, initBindings={'s': obj})]
+        if len(n) != 1:
+            raise ValueError(f"Not a single result: {n} for {obj}")
         return n[0]
 
-    def get_instances_of_type(self,type):
+    def get_instances_of_type(self, instance_type):
         q = """
             SELECT ?s
             WHERE {
                 ?s a ?t .
             }
             """
-        n = [r['s'] for r in self.graph.query(q,initBindings = {'t' : type })]
+        n = [r['s'] for r in self.graph.query(q, initBindings={'t': instance_type})]
         return n
 
     def get_instances(self):
@@ -61,7 +63,7 @@ class SparQLWrapper:
         n = [r['s'] for r in self.graph.query(q)]
         return n
 
-    def get_object_properties(self,obj,prop):
+    def get_object_properties(self, obj, prop):
         q = string.Template("""
             SELECT ?value
             WHERE {
@@ -69,11 +71,10 @@ class SparQLWrapper:
             }
             """).substitute(PROP=prop)
 
-        n = [r['value'] for r in self.graph.query(q,initBindings = {'s' : obj })]
-        return list(map(lambda x : x.value, n))
-        
+        n = [r['value'] for r in self.graph.query(q, initBindings={'s': obj})]
+        return list(map(lambda x: x.value, n))
 
-    def get_single_object_property(self,obj,prop):
+    def get_single_object_property(self, obj, prop):
 
         q = string.Template("""
             SELECT ?value
@@ -82,14 +83,14 @@ class SparQLWrapper:
             }
             """).substitute(PROP=prop)
 
-        n = [r['value'] for r in self.graph.query(q,initBindings = {'s' : obj })]
-        if(len(n) != 1): raise ValueError(f"Not a single result {str(n)} for {obj} prop: {prop}")
-        if isinstance(n[0],Literal):
+        n = [r['value'] for r in self.graph.query(q, initBindings={'s': obj})]
+        if len(n) != 1:
+            raise ValueError(f"Not a single result {str(n)} for {obj} prop: {prop}")
+        if isinstance(n[0], Literal):
             return n[0].value
         return n[0]
 
-    
-    def get_in_references(self,obj,prop):
+    def get_in_references(self, obj, prop):
         q = string.Template("""
             SELECT ?s
             WHERE {
@@ -98,10 +99,10 @@ class SparQLWrapper:
             }
             """).substitute(PROP=prop)
 
-        n = [r['s'] for r in self.graph.query(q,initBindings = {'o' : obj })]
+        n = [r['s'] for r in self.graph.query(q, initBindings={'o': obj})]
         return n
 
-    def get_out_references(self,obj,prop):
+    def get_out_references(self, obj, prop):
         q = string.Template("""
             SELECT ?o
             WHERE {
@@ -110,10 +111,10 @@ class SparQLWrapper:
             }
             """).substitute(PROP=prop)
 
-        n = [r['o'] for r in self.graph.query(q,initBindings = {'s' : obj })]
+        n = [r['o'] for r in self.graph.query(q, initBindings={'s': obj})]
         return n
-    
-    def get_out(self,obj):
+
+    def get_out(self, obj):
         q = """
             SELECT ?p ?o
             WHERE {
@@ -121,20 +122,20 @@ class SparQLWrapper:
             }
             """
 
-        n = [(r['p'],r['o']) for r in self.graph.query(q,initBindings = {'s' : obj })]
+        n = [(r['p'], r['o']) for r in self.graph.query(q, initBindings={'s': obj})]
         return n
 
-    def get_single_out_reference(self,obj,prop):
-        r = self.get_out_references(obj,prop)
-        if(len(r) != 1): raise ValueError(f"Not a single result {str(r)} for {obj}")
+    def get_single_out_reference(self, obj, prop):
+        r = self.get_out_references(obj, prop)
+        if len(r) != 1:
+            raise ValueError(f"Not a single result {str(r)} for {obj}")
         return r[0]
-    
-    def has_out_reference(self,obj,prop):
-        r = self.get_out_references(obj,prop)
-        return len(r) > 0
-    
 
-    def get_sequence(self,obj):
+    def has_out_reference(self, obj, prop):
+        r = self.get_out_references(obj, prop)
+        return len(r) > 0
+
+    def get_sequence(self, obj):
         q = """
             SELECT ?o ?ix
             WHERE {
@@ -142,6 +143,5 @@ class SparQLWrapper:
                 ?o a ?t .
             }
             """
-        n = [r['o'] for r in sorted(self.graph.query(q,initBindings = {'s' : obj }),key = lambda x : int(x['ix'][44:]))]
+        n = [r['o'] for r in sorted(self.graph.query(q, initBindings={'s': obj}), key=lambda x: int(x['ix'][44:]))]
         return n
-            
