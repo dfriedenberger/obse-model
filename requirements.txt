@@ -1,2 +1,2 @@
-rdflib==7.0.0
+rdflib==7.1.0
 setuptools==75.2.0
