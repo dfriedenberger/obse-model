@@ -1,4 +1,5 @@
 import string
+import re
 from rdflib import Literal
 
 
@@ -137,11 +138,23 @@ class SparQLWrapper:
 
     def get_sequence(self, obj):
         q = """
-            SELECT ?o ?ix
+            SELECT ?position ?routeSection
             WHERE {
-                ?s ?ix ?o .
-                ?o a ?t .
+                # Finde die Elemente der rdf:Seq
+                ?seq ?position ?routeSection .
+
+                # Filtere nur Positionen wie rdf:_1, rdf:_2, usw.
+                FILTER(STRSTARTS(STR(?position), STR(rdf:_)))
             }
             """
-        n = [r['o'] for r in sorted(self.graph.query(q, initBindings={'s': obj}), key=lambda x: int(x['ix'][44:]))]
-        return n
+        n = []
+        # Parse das Ergebnis
+        for r in self.graph.query(q, initBindings={'seq': obj}):
+            pos = int(re.search('#_(\\d+)$', r['position']).group(1))
+            n.append((pos, r['routeSection']))
+
+        # Sortiere die Liste nach dem ersten Element im Tupel (der Zahl)
+        s = sorted(n, key=lambda x: x[0])
+
+        # Extrahiere das zweite Element (den String) aus den sortierten Tupeln
+        return [x[1] for x in s]
